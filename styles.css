@@ -58,8 +58,18 @@ table {
 }
 
 .snake {
+    position: absolute;
+    background-color: green;
+    width: 20px;
+    height: 20px;
+    margin-left: 200px;
+    margin-top: 100px;
+}
+
+.food {
     background-color: red;
     width: 20px;
     height: 20px;
-    /* margin-left: 20px; */
+    margin-left: 500px;
+    margin-top: 200px;
 }
