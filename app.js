@@ -1,5 +1,5 @@
 document.addEventListener('keydown', handleKeyboardEvents);
-window.setInterval(moveSnake, 150);
+window.setInterval(moveSnake, 100);
 
 // const snake = document.querySelector(".snake");
 const food = document.querySelector(".food");
@@ -9,8 +9,6 @@ const gameboardHeight = 500;
 const gameboardWidth = 700;
 const blockSize = 20;
 
-let marginLeft = 200;
-let marginTop = 100;
 let lastMarginLeft = null;
 let lastMarginTop = null;
 
@@ -25,14 +23,6 @@ initalize();
 function initalize() {
     console.log('initalized');
     snakeBody.push({marginLeft: 200, marginTop: 100});
-    // const snakePart = document.createElement("div");
-    // snakePart.style.width = blockSize + "px";
-    // snakePart.style.height = blockSize + "px";
-    // snakePart.style.backgroundColor = "green";
-    // snakePart.style.position = "absolute";
-    // snakePart.style.marginLeft = snakeBody[0].marginLeft + "px";
-    // snakePart.style.marginTop = snakeBody[0].marginTop + "px";
-    // gameContainer.appendChild(snakePart);
 }
 
 
@@ -60,27 +50,22 @@ function moveSnake() {
     lastMarginTop = snakeBody[snakeBody.length - 1].marginTop; 
 
     for (let i = snakeBody.length - 1; i >= 1; i--) {
-        console.log("for loop");
         snakeBody[i].marginLeft = snakeBody[i - 1].marginLeft;
         snakeBody[i].marginTop = snakeBody[i - 1].marginTop;
     }
 
     if (movementDirection == "right") {
         snakeBody[0].marginLeft += blockSize;
-        // snake.style.marginLeft = marginLeft + "px";
     } else if (movementDirection == "left") {
         snakeBody[0].marginLeft -= blockSize;
-        // snake.style.marginLeft = marginLeft + "px";
     } else if (movementDirection == "up") {
         snakeBody[0].marginTop -= blockSize;
-        // snake.style.marginTop = marginTop + "px";
     } else {
         snakeBody[0].marginTop += blockSize;
-        // snake.style.marginTop = marginTop + "px";   
     }
-    console.log(snakeBody[0].marginLeft, snakeBody[0].marginTop);
     draw();
     detectBorderHit();
+    detectSelfHit();
     detectFoodEaten();
 }
 
@@ -105,7 +90,6 @@ function drawFood() {
 
 function drawSnake() {
     for (let snakePart of snakeBody) {
-        console.log("Drew one part");
         const drawnSnakePart = document.createElement("div");
         drawnSnakePart.style.width = blockSize + "px";
         drawnSnakePart.style.height = blockSize + "px";
@@ -127,23 +111,37 @@ function clearDomElements() {
 }
 
 
+function grow() {
+    snakeBody.push({marginLeft: lastMarginLeft, marginTop: lastMarginTop});
+}
+
+
 function detectBorderHit() {
     // Snake hit the left or top border of the game 
     if (snakeBody[0].marginLeft === -blockSize || snakeBody[0].marginTop === -blockSize) {
         alert("Border hit");
-        // resetSnakePosition();
+        reset();
     // Snake hit the right or bottom border of the game
     } else if (snakeBody[0].marginLeft === gameboardWidth || snakeBody[0].marginTop === gameboardHeight) {
         alert("Border hit");
-        // resetSnakePosition();
+        reset();
     }
 }
 
 
 function detectFoodEaten() {
     if (snakeBody[0].marginLeft === foodMarginLeft && snakeBody[0].marginTop === foodMarginTop) {
-        alert("Food eaten.");
+        grow();
         createNewFood();
+    }
+}
+
+
+function detectSelfHit() {
+    for (let i = 1; i < snakeBody.length; i++) {
+        if ((snakeBody[0].marginLeft === snakeBody[i].marginLeft) && (snakeBody[0].marginTop === snakeBody[i].marginTop)) {
+            alert("Hit self");
+        }
     }
 }
 
@@ -164,18 +162,13 @@ function createNewFood() {
     foodMarginLeft = possMarginLeft[Math.floor(Math.random() * possMarginLeft.length)]
     // Generate random number between 0 and 480 (at 20px increments)
     foodMarginTop = possMarginTop[Math.floor(Math.random() * possMarginTop.length)]
-    console.log(foodMarginLeft, foodMarginTop);
-
-
 }
 
 
-// function resetSnakePosition() {
-//     marginLeft = 200;
-//     marginTop = 100;
-
-//     snake.style.marginLeft = marginLeft + "px";
-//     snake.style.marginTop = marginTop + "px";
-// }
+function reset() {
+    clearDomElements();
+    snakeBody.length = 0;
+    initalize();
+}
 
  
