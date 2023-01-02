@@ -1,24 +1,39 @@
 document.addEventListener('keydown', handleKeyboardEvents);
 window.setInterval(moveSnake, 150);
 
-const snake = document.querySelector(".snake");
+// const snake = document.querySelector(".snake");
 const food = document.querySelector(".food");
-
-console.log(snake);
-console.log(food);
+const gameContainer = document.querySelector(".game-container");
 
 const gameboardHeight = 500;
 const gameboardWidth = 700;
-const movementDistance = 20; 
-const playerBlockSize = 20;
+const blockSize = 20;
 
 let marginLeft = 200;
 let marginTop = 100;
+let lastMarginLeft = null;
+let lastMarginTop = null;
 
 let foodMarginLeft = 500;
 let foodMarginTop = 200;
 
 let movementDirection = "right";
+const snakeBody = [];
+initalize();
+
+
+function initalize() {
+    console.log('initalized');
+    snakeBody.push({marginLeft: 200, marginTop: 100});
+    // const snakePart = document.createElement("div");
+    // snakePart.style.width = blockSize + "px";
+    // snakePart.style.height = blockSize + "px";
+    // snakePart.style.backgroundColor = "green";
+    // snakePart.style.position = "absolute";
+    // snakePart.style.marginLeft = snakeBody[0].marginLeft + "px";
+    // snakePart.style.marginTop = snakeBody[0].marginTop + "px";
+    // gameContainer.appendChild(snakePart);
+}
 
 
 function handleKeyboardEvents(event) {
@@ -41,39 +56,92 @@ function handleKeyboardEvents(event) {
 
 
 function moveSnake() {
-    if (movementDirection == "right") {
-        marginLeft += movementDistance;
-        snake.style.marginLeft = marginLeft + "px";
-    } else if (movementDirection == "left") {
-        marginLeft -= movementDistance;
-        snake.style.marginLeft = marginLeft + "px";
-    } else if (movementDirection == "up") {
-        marginTop -= movementDistance;
-        snake.style.marginTop = marginTop + "px";
-    } else {
-        marginTop += movementDistance;
-        snake.style.marginTop = marginTop + "px";   
+    lastMarginLeft = snakeBody[snakeBody.length - 1].marginLeft; 
+    lastMarginTop = snakeBody[snakeBody.length - 1].marginTop; 
+
+    for (let i = snakeBody.length - 1; i >= 1; i--) {
+        console.log("for loop");
+        snakeBody[i].marginLeft = snakeBody[i - 1].marginLeft;
+        snakeBody[i].marginTop = snakeBody[i - 1].marginTop;
     }
+
+    if (movementDirection == "right") {
+        snakeBody[0].marginLeft += blockSize;
+        // snake.style.marginLeft = marginLeft + "px";
+    } else if (movementDirection == "left") {
+        snakeBody[0].marginLeft -= blockSize;
+        // snake.style.marginLeft = marginLeft + "px";
+    } else if (movementDirection == "up") {
+        snakeBody[0].marginTop -= blockSize;
+        // snake.style.marginTop = marginTop + "px";
+    } else {
+        snakeBody[0].marginTop += blockSize;
+        // snake.style.marginTop = marginTop + "px";   
+    }
+    console.log(snakeBody[0].marginLeft, snakeBody[0].marginTop);
+    draw();
     detectBorderHit();
     detectFoodEaten();
 }
 
 
+function draw() {
+    clearDomElements();
+    drawSnake();
+    drawFood();
+}
+
+
+function drawFood() {
+    const food = document.createElement("div");
+    food.style.width = blockSize + "px";
+    food.style.height = blockSize + "px";
+    food.style.backgroundColor = "red";
+    food.style.marginLeft = foodMarginLeft + "px";
+    food.style.marginTop = foodMarginTop + "px";
+    gameContainer.appendChild(food);
+}
+
+
+function drawSnake() {
+    for (let snakePart of snakeBody) {
+        console.log("Drew one part");
+        const drawnSnakePart = document.createElement("div");
+        drawnSnakePart.style.width = blockSize + "px";
+        drawnSnakePart.style.height = blockSize + "px";
+        drawnSnakePart.style.backgroundColor = "green";
+        drawnSnakePart.style.position = "absolute";
+        drawnSnakePart.style.marginLeft = snakePart.marginLeft + "px";
+        drawnSnakePart.style.marginTop = snakePart.marginTop + "px";
+        gameContainer.appendChild(drawnSnakePart);
+    }
+}
+
+
+function clearDomElements() {
+    let first = gameContainer.firstElementChild;
+    while (first) {
+        first.remove();
+        first = gameContainer.firstElementChild;
+    }
+}
+
+
 function detectBorderHit() {
     // Snake hit the left or top border of the game 
-    if (marginLeft === -movementDistance || marginTop === -movementDistance) {
+    if (snakeBody[0].marginLeft === -blockSize || snakeBody[0].marginTop === -blockSize) {
         alert("Border hit");
-        resetSnakePosition();
+        // resetSnakePosition();
     // Snake hit the right or bottom border of the game
-    } else if (marginLeft === gameboardWidth || marginTop === gameboardHeight) {
+    } else if (snakeBody[0].marginLeft === gameboardWidth || snakeBody[0].marginTop === gameboardHeight) {
         alert("Border hit");
-        resetSnakePosition();
+        // resetSnakePosition();
     }
 }
 
 
 function detectFoodEaten() {
-    if (marginLeft === foodMarginLeft && marginTop === foodMarginTop) {
+    if (snakeBody[0].marginLeft === foodMarginLeft && snakeBody[0].marginTop === foodMarginTop) {
         alert("Food eaten.");
         createNewFood();
     }
@@ -84,11 +152,11 @@ function createNewFood() {
     const possMarginLeft = [];
     const possMarginTop = [];
 
-    for (let i = 0; i <= (gameboardWidth - playerBlockSize); i += 20) {
+    for (let i = 0; i <= (gameboardWidth - blockSize); i += 20) {
         possMarginLeft.push(i);
     }
 
-    for (let i = 0; i <= (gameboardHeight - playerBlockSize); i += 20) {
+    for (let i = 0; i <= (gameboardHeight - blockSize); i += 20) {
         possMarginTop.push(i);
     }
 
@@ -98,18 +166,16 @@ function createNewFood() {
     foodMarginTop = possMarginTop[Math.floor(Math.random() * possMarginTop.length)]
     console.log(foodMarginLeft, foodMarginTop);
 
-    food.style.marginLeft = foodMarginLeft + "px";
-    food.style.marginTop = foodMarginTop + "px";
-    console.log(food);
+
 }
 
 
-function resetSnakePosition() {
-    marginLeft = 200;
-    marginTop = 100;
+// function resetSnakePosition() {
+//     marginLeft = 200;
+//     marginTop = 100;
 
-    snake.style.marginLeft = marginLeft + "px";
-    snake.style.marginTop = marginTop + "px";
-}
+//     snake.style.marginLeft = marginLeft + "px";
+//     snake.style.marginTop = marginTop + "px";
+// }
 
  
