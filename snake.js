@@ -60,12 +60,15 @@ class Snake {
             this.snakeBody[0].x === 0 - this.blockSize || 
             this.snakeBody[0].y === 0 - this.blockSize) {
             alert("Border hit");
+            return true;
         // Snake hit the right or bottom border of the game
         } else if (
             this.snakeBody[0].x === width || 
             this.snakeBody[0].y === height) {
             alert("Border hit");
+            return true;
         }
+        return false;
     }
 
     detectFoodEaten(food) {
@@ -83,8 +86,10 @@ class Snake {
                 this.snakeBody[0].x === this.snakeBody[i].x) && 
                 (this.snakeBody[0].y === this.snakeBody[i].y)) {
                 alert("Hit self");
+                return true;
             }
         }
+        return false;
     }
 
     getSnakeBody() {

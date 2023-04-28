@@ -35,7 +35,12 @@ class Board {
     }
 
     clearFood() {
-        this.ctx.clearRect(food.getX(), food.getY(), this.blockSize, this.blockSize);
+        this.ctx.clearRect(this.food.getX(), this.food.getY(), this.blockSize, this.blockSize);
+    }
+
+    clearBoard() {
+        this.clearSnake();
+        this.clearFood();
     }
 
     createNewFood() {

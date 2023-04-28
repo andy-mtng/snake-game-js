@@ -6,7 +6,6 @@ class Game {
         this.setupBrowser();
         this.snake = new Snake(100, 100);
         this.board = new Board(this.snake);
-        this.continueGame = true;
         this.board.drawFood();
         this.score = 0;
         this.scoreBoard = document.querySelector('#score-board');
@@ -21,7 +20,10 @@ class Game {
                 this.increaseScore();
                 this.board.createNewFood();
             }
-            this.checkForLoss();
+            if (this.isLoss()) {
+                alert("you lose!");
+                this.reset();
+            }
             this.board.drawSnake();
         }, 60);
     }
@@ -40,9 +42,27 @@ class Game {
         this.scoreBoard.textContent = `Score: ${this.score}`;
     }
 
-    checkForLoss() {
-        this.snake.checkBorderHit();
-        this.snake.checkSelfHit();
+    isLoss() {
+        if (this.snake.checkBorderHit()) {return true}
+        if (this.snake.checkSelfHit()) {return true}
+        return false;
+    }
+
+    reset() {
+        console.log('reset');
+        this.resetScore();
+
+        this.board.clearBoard();
+
+        this.snake = new Snake(100, 100);
+        this.board = new Board(this.snake);
+        this.board.drawSnake();
+        this.board.createNewFood();
+    }
+
+    resetScore() {
+        this.score = 0;
+        this.scoreBoard.textContent = `Score: ${this.score}`;
     }
 }
 
