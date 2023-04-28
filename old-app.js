@@ -1,9 +1,9 @@
 document.addEventListener('keydown', handleKeyboardEvents);
 window.setInterval(moveSnake, 100);
 
-// const snake = document.querySelector(".snake");
 const food = document.querySelector(".food");
 const gameContainer = document.querySelector(".game-container");
+const scoreCounter = document.querySelector(".score-value");
 
 const gameboardHeight = 500;
 const gameboardWidth = 700;
@@ -17,11 +17,11 @@ let foodMarginTop = 200;
 
 let movementDirection = "right";
 const snakeBody = [];
+let score = 0;
 initalize();
 
 
 function initalize() {
-    console.log('initalized');
     snakeBody.push({marginLeft: 200, marginTop: 100});
 }
 
@@ -93,7 +93,7 @@ function drawSnake() {
         const drawnSnakePart = document.createElement("div");
         drawnSnakePart.style.width = blockSize + "px";
         drawnSnakePart.style.height = blockSize + "px";
-        drawnSnakePart.style.backgroundColor = "green";
+        drawnSnakePart.style.backgroundColor = "white";
         drawnSnakePart.style.position = "absolute";
         drawnSnakePart.style.marginLeft = snakePart.marginLeft + "px";
         drawnSnakePart.style.marginTop = snakePart.marginTop + "px";
@@ -133,6 +133,7 @@ function detectFoodEaten() {
     if (snakeBody[0].marginLeft === foodMarginLeft && snakeBody[0].marginTop === foodMarginTop) {
         grow();
         createNewFood();
+        increaseScore();
     }
 }
 
@@ -143,6 +144,12 @@ function detectSelfHit() {
             alert("Hit self");
         }
     }
+}
+
+
+function increaseScore() {
+    score += 1;
+    scoreCounter.textContent = score;
 }
 
 
