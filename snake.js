@@ -36,14 +36,14 @@ class Snake {
         //     snakeBody[i].y = snakeBody[i - 1].y;
         // }
     
-        if (movementDirection == "right") {
-            snakeBody[0].x += blockSize;
-        } else if (movementDirection == "left") {
-            snakeBody[0].x -= blockSize;
-        } else if (movementDirection == "up") {
-            snakeBody[0].y -= blockSize;
+        if (this.movementDirection == "right") {
+            this.snakeBody[0].x += this.blockSize;
+        } else if (this.movementDirection == "left") {
+            this.snakeBody[0].x -= this.blockSize;
+        } else if (this.movementDirection == "up") {
+            this.snakeBody[0].y -= this.blockSize;
         } else {
-            snakeBody[0].y += blockSize;
+            this.snakeBody[0].y += this.blockSize;
         }
     }
 

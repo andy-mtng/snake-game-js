@@ -15,6 +15,8 @@ class Game {
         //     this.board.drawSnake;
         // }
         console.log("playGame");
+        this.board.drawSnake();
+
         // for (let i = 0; i < 9999; i++) {
         //     this.board.drawSnake();
         // }
@@ -31,7 +33,8 @@ class Game {
             event.preventDefault();
         }
         this.snake.updateMovementDirection(code);
-
+        this.snake.move();
+        this.board.drawSnake();
     }
 
     // update(code) {
