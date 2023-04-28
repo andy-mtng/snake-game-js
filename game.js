@@ -21,8 +21,8 @@ class Game {
                 this.board.createNewFood();
             }
             if (this.isLoss()) {
-                alert("you lose!");
-                this.reset();
+                this.displayLossScreen();
+                this.freezeScreen();
             }
             this.board.drawSnake();
         }, 60);
@@ -35,6 +35,24 @@ class Game {
             event.preventDefault();
         }
         this.snake.updateMovementDirection(code);
+    }
+
+    displayLossScreen() {
+        console.log("displayLossScreen()");
+        const gameContainer = document.querySelector('#game-container');
+        const lossScreen = document.createElement('div');
+        const okButton = document.createElement('button');
+
+        lossScreen.textContent = `You lose! Score: ${this.score}`;
+        lossScreen.classList.add('loss-screen');
+        okButton.textContent = 'OK';
+        okButton.classList.add('ok-button');
+        okButton.addEventListener('click', () => {
+            alert('button clicked');
+        });
+
+        lossScreen.appendChild(okButton);
+        gameContainer.appendChild(lossScreen);
     }
 
     increaseScore() {
@@ -64,6 +82,23 @@ class Game {
         this.score = 0;
         this.scoreBoard.textContent = `Score: ${this.score}`;
     }
+
+    freezeScreen() {
+        // Remove focus from all elements on the page
+        document.body.blur();
+        
+        // Disable scrolling of the page
+        document.body.style.overflow = 'hidden';
+      }
+      
+    unfreezeScreen() {
+        // Restore focus to all elements on the page
+        document.body.focus();
+        
+        // Enable scrolling of the page
+        document.body.style.overflow = 'auto';
+      }
+      
 }
 
 export default Game;
