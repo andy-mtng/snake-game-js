@@ -9,13 +9,10 @@ class Snake {
     }
 
     initalizeSnakeBody() {
-        console.log("My values:", this.x, this.y);
-        console.log("initalizeSnakeBody");
         this.snakeBody.push({x: this.x, y: this.y});
     }
 
     updateMovementDirection(code) {
-        console.log(code);
         if (code === "ArrowUp") {
             this.movementDirection = "up";
         } else if (code === "ArrowDown") {
@@ -49,6 +46,23 @@ class Snake {
 
     grow() {
 
+    }
+
+    checkBorderHit() {
+        const canvas = document.getElementById('game-board');
+        const width = canvas.width;
+        const height = canvas.height;
+        // Snake hit the left or top border of the game 
+        if (
+            this.snakeBody[0].x === 0 - this.blockSize || 
+            this.snakeBody[0].y === 0 - this.blockSize) {
+            alert("Border hit");
+        // Snake hit the right or bottom border of the game
+        } else if (
+            this.snakeBody[0].x === width || 
+            this.snakeBody[0].y === height) {
+            alert("Border hit");
+        }
     }
 
     getSnakeBody() {

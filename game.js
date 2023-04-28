@@ -12,23 +12,12 @@ class Game {
         this.board.drawSnake();
     }
 
-    // playGame() {
-    //     // while(this.continueGame) {
-    //     //     this.board.drawSnake;
-    //     // }
-    //     console.log("playGame");
-    //     this.board.drawSnake();
-
-    //     // for (let i = 0; i < 9999; i++) {
-    //     //     this.board.drawSnake();
-    //     // }
-    // }
-
     setupBrowser() {
         document.addEventListener('keydown', this.handleKeyboardEvents.bind(this));
         setInterval(() => {
-            console.log('I am running');
+            this.board.clearSnake();
             this.snake.move();
+            this.checkForLoss();
             this.board.drawSnake();
         }, 100);
     }
@@ -40,17 +29,11 @@ class Game {
             event.preventDefault();
         }
         this.snake.updateMovementDirection(code);
-        // this.update(code);
-        // this.snake.updateMovementDirection(code);
-        // this.snake.move();
-        // this.board.drawSnake();
     }
 
-    // update(code) {
-    //     this.snake.updateMovementDirection(code);
-    //     this.board.drawSnake();
-    // }
-
+    checkForLoss() {
+        this.snake.checkBorderHit()
+    }
 }
 
 export default Game;

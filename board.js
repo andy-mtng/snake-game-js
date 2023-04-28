@@ -9,13 +9,9 @@ class Board {
     }
 
     drawSnake() {
-        console.log("drawSnake");
         const snakeBody = this.snake.getSnakeBody();
-        console.log(snakeBody.length);
-        console.log(snakeBody);
         this.ctx.fillStyle = "red";
         for (let segment of snakeBody) {
-            console.log("for loop");
             this.ctx.fillRect(segment.x, segment.y, this.blockSize, this.blockSize);
         }
     }
@@ -24,8 +20,11 @@ class Board {
 
     }
 
-    clearBoard() {
-
+    clearSnake() {
+        const snakeBody = this.snake.getSnakeBody();
+        for (let segment of snakeBody) {
+            this.ctx.clearRect(segment.x, segment.y, this.blockSize, this.blockSize);
+        }
     }
 }
 
