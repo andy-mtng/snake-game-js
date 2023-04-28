@@ -5,11 +5,9 @@ class Game {
     constructor() {
         this.setupBrowser();
         this.snake = new Snake(100, 100);
-        console.log('New snake', this.snake);
         this.board = new Board(this.snake);
         this.continueGame = true;
-
-        this.board.drawSnake();
+        this.board.drawFood();
     }
 
     setupBrowser() {
@@ -17,9 +15,10 @@ class Game {
         setInterval(() => {
             this.board.clearSnake();
             this.snake.move();
+            this.snake.detectFoodEaten(this.board.getFood());
             this.checkForLoss();
             this.board.drawSnake();
-        }, 100);
+        }, 60);
     }
 
     handleKeyboardEvents(event) {

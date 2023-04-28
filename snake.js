@@ -65,6 +65,12 @@ class Snake {
         }
     }
 
+    detectFoodEaten(food) {
+        if (this.snakeBody[0].x === food.getX() && this.snakeBody[0].y === food.getY()) {
+            console.log("Food eaten");
+        }
+    }
+
     getSnakeBody() {
         return this.snakeBody;
     }
