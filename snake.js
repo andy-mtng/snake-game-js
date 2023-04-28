@@ -77,6 +77,16 @@ class Snake {
         return false;
     }
 
+    checkSelfHit() {
+        for (let i = 1; i < this.snakeBody.length; i++) {
+            if ((
+                this.snakeBody[0].x === this.snakeBody[i].x) && 
+                (this.snakeBody[0].y === this.snakeBody[i].y)) {
+                alert("Hit self");
+            }
+        }
+    }
+
     getSnakeBody() {
         return this.snakeBody;
     }
