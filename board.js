@@ -38,6 +38,11 @@ class Board {
         this.ctx.clearRect(food.getX(), food.getY(), this.blockSize, this.blockSize);
     }
 
+    createNewFood() {
+        this.food = new Food();
+        this.drawFood();
+    }
+
     getFood() {
         return this.food;
     }

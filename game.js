@@ -15,7 +15,9 @@ class Game {
         setInterval(() => {
             this.board.clearSnake();
             this.snake.move();
-            this.snake.detectFoodEaten(this.board.getFood());
+            if (this.snake.detectFoodEaten(this.board.getFood())) {
+                this.board.createNewFood();
+            }
             this.checkForLoss();
             this.board.drawSnake();
         }, 60);

@@ -1,7 +1,9 @@
 class Snake {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this.initalX = x;
+        this.initalY = y;
+        this.lastX;
+        this.lastY;
         this.snakeBody = [];
         this.initalizeSnakeBody();
         this.blockSize = 20;
@@ -9,7 +11,7 @@ class Snake {
     }
 
     initalizeSnakeBody() {
-        this.snakeBody.push({x: this.x, y: this.y});
+        this.snakeBody.push({x: this.initalX, y: this.initalY});
     }
 
     updateMovementDirection(code) {
@@ -25,13 +27,13 @@ class Snake {
     }
 
     move() {
-        // lastX = snakeBody[snakeBody.length - 1].x; 
-        // lastY = snakeBody[snakeBody.length - 1].y; 
+        this.lastX = this.snakeBody[this.snakeBody.length - 1].x; 
+        this.lastY = this.snakeBody[this.snakeBody.length - 1].y; 
     
-        // for (let i = snakeBody.length - 1; i >= 1; i--) {
-        //     snakeBody[i].x = snakeBody[i - 1].x;
-        //     snakeBody[i].y = snakeBody[i - 1].y;
-        // }
+        for (let i = this.snakeBody.length - 1; i >= 1; i--) {
+            this.snakeBody[i].x = this.snakeBody[i - 1].x;
+            this.snakeBody[i].y = this.snakeBody[i - 1].y;
+        }
     
         if (this.movementDirection == "right") {
             this.snakeBody[0].x += this.blockSize;
@@ -45,7 +47,8 @@ class Snake {
     }
 
     grow() {
-
+        console.log("grow()");
+        this.snakeBody.push({x: this.lastX, y: this.lastY});
     }
 
     checkBorderHit() {
@@ -67,8 +70,11 @@ class Snake {
 
     detectFoodEaten(food) {
         if (this.snakeBody[0].x === food.getX() && this.snakeBody[0].y === food.getY()) {
-            console.log("Food eaten");
+            // Food is eaten
+            this.grow();
+            return true;
         }
+        return false;
     }
 
     getSnakeBody() {
