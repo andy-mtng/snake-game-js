@@ -4,6 +4,7 @@ class Snake {
         this.y = y;
         this.snakeBody = [];
         this.initalizeSnakeBody();
+        this.blockSize = 20;
         this.movementDirection = "right";
     }
 
@@ -27,7 +28,23 @@ class Snake {
     }
 
     move() {
-
+        // lastX = snakeBody[snakeBody.length - 1].x; 
+        // lastY = snakeBody[snakeBody.length - 1].y; 
+    
+        // for (let i = snakeBody.length - 1; i >= 1; i--) {
+        //     snakeBody[i].x = snakeBody[i - 1].x;
+        //     snakeBody[i].y = snakeBody[i - 1].y;
+        // }
+    
+        if (movementDirection == "right") {
+            snakeBody[0].x += blockSize;
+        } else if (movementDirection == "left") {
+            snakeBody[0].x -= blockSize;
+        } else if (movementDirection == "up") {
+            snakeBody[0].y -= blockSize;
+        } else {
+            snakeBody[0].y += blockSize;
+        }
     }
 
     grow() {
