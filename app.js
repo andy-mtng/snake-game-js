@@ -1,7 +1,7 @@
 import Game from './game.js';
 
 const game = new Game();
-game.playGame();
+// game.playGame();
 
 
 // const canvas = document.getElementById("game-board");
