@@ -5,18 +5,20 @@ class Game {
     constructor() {
         this.setupEventListeners();
         this.snake = new Snake(100, 100);
-        this.board = new Board();
+        this.board = new Board(this.snake);
         this.continueGame = true;
     }
 
     playGame() {
-        while(this.continueGame) {
-
-        }
+        // while(this.continueGame) {
+        //     this.board.drawSnake;
+        // }
+        console.log("playGame")
+        this.board.drawSnake();
     }
 
     setupEventListeners() {
-        document.addEventListener('keydown', handleKeyboardEvents);
+        document.addEventListener('keydown', this.handleKeyboardEvents);
     }
 
     handleKeyboardEvents(event) {
@@ -26,7 +28,7 @@ class Game {
             event.preventDefault();
         }
     
-        this.snake.move(code);
+        this.snake.updateMovementDirection(code);
     }
 
 }

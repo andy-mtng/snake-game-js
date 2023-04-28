@@ -3,10 +3,17 @@ class Snake {
         this.x = x;
         this.y = y;
         this.snakeBody = [];
+        this.initalizeSnakeBody();
         this.movementDirection = "right";
     }
 
-    move(code) {
+    initalizeSnakeBody() {
+        console.log("My values:", this.x, this.y);
+        console.log("initalizeSnakeBody");
+        this.snakeBody.push({x: this.x, y: this.y});
+    }
+
+    updateMovementDirection(code) {
         console.log(code);
         if (code === "ArrowUp") {
             this.movementDirection = "up";
@@ -19,8 +26,16 @@ class Snake {
         }
     }
 
+    move() {
+
+    }
+
     grow() {
 
+    }
+
+    getSnakeBody() {
+        return this.snakeBody;
     }
 }
 
