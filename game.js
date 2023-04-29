@@ -69,7 +69,6 @@ class Game {
         lossScreen.appendChild(okButton);
         gameContainer.appendChild(lossScreen);
         okButton.addEventListener('click', () => {
-            alert('button clicked');
             lossScreen.remove();
             this.reset();
         });

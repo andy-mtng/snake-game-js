@@ -11,7 +11,7 @@ class Board {
 
     drawSnake() {
         const snakeBody = this.snake.getSnakeBody();
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "white";
         for (let segment of snakeBody) {
             this.ctx.fillRect(segment.x, segment.y, this.blockSize, this.blockSize);
         }
