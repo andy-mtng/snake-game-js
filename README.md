@@ -1,3 +1,2 @@
 # js-snake-game
-https://user-images.githubusercontent.com/104605803/235318023-59c14366-3ddf-4954-be1d-6e274c78c0c8.mp4
-
+![snake-game-video](https://user-images.githubusercontent.com/104605803/235318098-45a3ee2b-9519-44e9-b4f2-e8c3e71437ec.gif)
