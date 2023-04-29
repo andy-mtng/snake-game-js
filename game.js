@@ -12,10 +12,14 @@ class Game {
         this.board.drawFood();
         this.score = 0;
         this.scoreBoard = document.querySelector('#score-board');
+        this.startInterval();
     }
 
     setupBrowser() {
         document.addEventListener('keydown', this.handleKeyboardEvents.bind(this));
+    }
+
+    startInterval() {
         this.intervalId = setInterval(() => {
             this.board.clearSnake();
             this.snake.move();
@@ -24,12 +28,23 @@ class Game {
                 this.board.createNewFood();
             }
             if (this.isLoss()) {
+                this.pause();
                 this.displayLossScreen();
-                // Stops the game loop from continuing
-                this.updateIntervalSpeed(0);
             }
             this.board.drawSnake();
-        }, 60);
+        }, this.intervalSpeed);
+    }
+      
+    pause() {
+        // Stop the interval
+        clearInterval(this.intervalId);
+        this.isPaused = true;
+    }
+
+    resume() {
+        // Start the interval again
+        this.startInterval();
+        this.isPaused = false;
     }
 
     handleKeyboardEvents(event) {
@@ -81,6 +96,8 @@ class Game {
         this.board = new Board(this.snake);
         this.board.drawSnake();
         this.board.createNewFood();
+
+        this.resume();
         
         // this.intervalSpeed = 60;
         // this.updateIntervalSpeed(this.intervalSpeed);
