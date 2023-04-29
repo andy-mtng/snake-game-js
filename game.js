@@ -3,6 +3,9 @@ import Snake from './snake.js';
 
 class Game {
     constructor() {
+        this.intervalSpeed = 60;
+        this.intervalId;
+        this.isPaused = false;
         this.setupBrowser();
         this.snake = new Snake(100, 100);
         this.board = new Board(this.snake);
@@ -13,7 +16,7 @@ class Game {
 
     setupBrowser() {
         document.addEventListener('keydown', this.handleKeyboardEvents.bind(this));
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             this.board.clearSnake();
             this.snake.move();
             if (this.snake.detectFoodEaten(this.board.getFood())) {
@@ -22,7 +25,8 @@ class Game {
             }
             if (this.isLoss()) {
                 this.displayLossScreen();
-                this.freezeScreen();
+                // Stops the game loop from continuing
+                this.updateIntervalSpeed(0);
             }
             this.board.drawSnake();
         }, 60);
@@ -47,12 +51,13 @@ class Game {
         lossScreen.classList.add('loss-screen');
         okButton.textContent = 'OK';
         okButton.classList.add('ok-button');
-        okButton.addEventListener('click', () => {
-            alert('button clicked');
-        });
-
         lossScreen.appendChild(okButton);
         gameContainer.appendChild(lossScreen);
+        okButton.addEventListener('click', () => {
+            alert('button clicked');
+            lossScreen.remove();
+            this.reset();
+        });
     }
 
     increaseScore() {
@@ -76,6 +81,9 @@ class Game {
         this.board = new Board(this.snake);
         this.board.drawSnake();
         this.board.createNewFood();
+        
+        // this.intervalSpeed = 60;
+        // this.updateIntervalSpeed(this.intervalSpeed);
     }
 
     resetScore() {
@@ -83,22 +91,22 @@ class Game {
         this.scoreBoard.textContent = `Score: ${this.score}`;
     }
 
-    freezeScreen() {
-        // Remove focus from all elements on the page
-        document.body.blur();
-        
-        // Disable scrolling of the page
-        document.body.style.overflow = 'hidden';
-      }
-      
-    unfreezeScreen() {
-        // Restore focus to all elements on the page
-        document.body.focus();
-        
-        // Enable scrolling of the page
-        document.body.style.overflow = 'auto';
-      }
-      
+    // updateIntervalSpeed(speed) {
+    //     clearInterval(this.intervalId);
+    //     this.intervalSpeed = speed;
+    //     this.intervalId = setInterval(() => {
+    //         this.board.clearSnake();
+    //         this.snake.move();
+    //         if (this.snake.detectFoodEaten(this.board.getFood())) {
+    //             this.increaseScore();
+    //             this.board.createNewFood();
+    //         }
+    //         if (this.isLoss()) {
+    //             this.displayLossScreen();
+    //         }
+    //         this.board.drawSnake();
+    //     }, this.intervalSpeed);
+    // }
 }
 
 export default Game;
